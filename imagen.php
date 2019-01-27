@@ -1,0 +1,1 @@
+<img src="trackingpixel.php?refer=<?php echo $refer ?>&currentPage=<?php echo $currentPage ?>&ipVisita=<?php echo $ipVisita ?>&httpUserAgente=<?php echo $httpUserAgente ?>&reqTime=<?php echo $reqTime ?>">
