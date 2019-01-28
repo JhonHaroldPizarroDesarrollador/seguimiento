@@ -22,6 +22,7 @@ $textoIpVisita = 'La dirección IP desde la cual está viendo la página actual 
 $textoHttpUserAgent = 'El navegador que esta usando el usuario es: ';
 $textoCurrentPagina = 'La pagina actual es: ';
 $textoReqTime = 'Inicio de Solicitud: ';
+$textoFingerprint= 'El fingreprint del usuario es: ';
 $dbInsert = 'Registro agregado a la base de datos exitosamente! '.$connTime;
 
 
@@ -55,14 +56,16 @@ if( $con ) {
                                         fecha,
                                         dispositivo,
                                         navegador,
-                                        paginaRemitente
+                                        paginaRemitente,
+                                        fingerprint
                                         )
                 VALUES(
                         '". $_SESSION['user'] ."',
                         '". $_GET["reqTime"] ."',
                         '". $_GET["ipVisita"] ."',
                         '". $_GET["httpUserAgente"] ."',
-                        '". $_GET["refer"] ."'
+                        '". $_GET["refer"] ."',
+                        '". $_GET["fingerprintId"] ."'
                         )";
     $query = mysqli_query($con, $insertar);
 
@@ -77,6 +80,7 @@ if( $con ) {
         .$textoIpVisita.$_GET['ipVisita'].'","'
         .$textoHttpUserAgent.$_GET['httpUserAgente'].'","'
         .$textoCurrentPagina.$_GET['currentPage'].'","'
+        .$textoFingerprint.$_GET["fingerprintId"].'","'
         .$textoReqTime.$_GET['reqTime']."\n";
 
         $file= 'tracker_log.csv';

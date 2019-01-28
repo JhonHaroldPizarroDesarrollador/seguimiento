@@ -21,3 +21,18 @@
     $fecha = $date->format($datetimeFormat);
     $reqTime = $fecha;
 ?>
+<?php require 'fingerprint.php';?>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+
+</script>
+</head>
+<body >
+</body>
+</html>
