@@ -1425,6 +1425,62 @@
         }
     ]
 
+
+    var componentst = [
+        {
+            key: 'colorDepth',
+            getData: colorDepthKey
+        },
+        {
+            key: 'deviceMemory',
+            getData: deviceMemoryKey
+        },
+        {
+            key: 'hardwareConcurrency',
+            getData: hardwareConcurrencyKey
+        },
+        {
+            key: 'screenResolution',
+            getData: screenResolutionKey
+        },
+        {
+            key: 'availableScreenResolution',
+            getData: availableScreenResolutionKey
+        },
+        {
+            key: 'timezoneOffset',
+            getData: timezoneOffset
+        },
+        {
+            key: 'timezone',
+            getData: timezone
+        },
+        {
+            key: 'sessionStorage',
+            getData: sessionStorageKey
+        },
+        {
+            key: 'localStorage',
+            getData: localStorageKey
+        },
+        {
+            key: 'addBehavior',
+            getData: addBehaviorKey
+        },
+        {
+            key: 'cpuClass',
+            getData: cpuClassKey
+        },
+        {
+            key: 'platform',
+            getData: platformKey
+        },
+        {
+            key: 'canvas',
+            getData: canvasKey
+        },
+    ]
+
     var Fingerprint2 = function (options) {
         throw new Error("'new Fingerprint()' is deprecated, see https://github.com/Valve/fingerprintjs2#upgrade-guide-from-182-to-200")
     }
