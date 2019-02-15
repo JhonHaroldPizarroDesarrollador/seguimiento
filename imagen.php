@@ -1,2 +1,1 @@
-
-<img src="trackingpixel.php?refer=<?php echo $refer ?>&currentPage=<?php echo $currentPage ?>&ipVisita=<?php echo $ipVisita ?>&httpUserAgente=<?php echo $httpUserAgente ?>&reqTime=<?php echo $reqTime ?>&fingerprintId=<?php echo $_COOKIE['fp'] ?>">
+<img src="trackingpixel.php?refer=<?php echo $refer ?>&currentPage=<?php echo $currentPage ?>&ipVisita=<?php echo $ipVisita ?>&httpUserAgente=<?php echo $httpUserAgente ?>&reqTime=<?php echo $reqTime ?>&fingerprintId=<?php echo $_COOKIE['fp'] ?>&userDeviceId=<?php echo $_COOKIE['udi'] ?>&navName=<?php echo $navName ?>&navVersion=<?php echo $navVersion ?>">
