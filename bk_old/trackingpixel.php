@@ -1,10 +1,6 @@
 <?php
 session_start();
-$id = session_id();
-if (!isset($_SESSION['user'])) {
-    $_SESSION['user'] = rand(1, 9999999);
-}
-session_id();
+$sessionId = session_id();
 //obtener la fecha y la hora
 $timestamp = $_SERVER['REQUEST_TIME_FLOAT'];
 $datetimeFormat = 'Y-m-d H:i:s';
@@ -15,11 +11,12 @@ $connTime = $fecha;
 //mensajes para el log
 $dbConect = 'Conexion a la base de datos realizada! '.$connTime;
 $textoSession = 'El ID de la session actual es: ';
-$textoUser = 'El ID de la sesssion  actual es: ';
-$textoRefer = 'La direccion de la cual llego el usuario es: ';
-$textoIpVisita = 'La dirección IP desde la cual está viendo la página actual el usuario es: ';
+$textoUser = 'El ID del usuario  actual es: ';
+$textoSession = 'El ID de la sesssion  actual es: ';
+$textoRefer = 'La direcci?n de la cual llego el usuario es: ';
+$textoIpVisita = 'La direcci?n IP desde la cual está viendo la página actual el usuario es: ';
 $textoHttpUserAgent = 'El navegador que esta usando el usuario es: ';
-$textoCurrentPagina = 'La pagina actual es: ';
+$textoCurrentPagina = 'La pagina actual o de aterrizaje es: ';
 $textoReqTime = 'Inicio de Solicitud: ';
 $textoFingerprint= 'El fingreprint del usuario es: ';
 $textoUserDeviceId= 'El device ID del usuario es: ';
@@ -48,6 +45,7 @@ if( $con ) {
     fclose($fp);
     //  sql query
     $insertar = "INSERT INTO traking_records (
+                                        user_id,
                                         session_id,
                                         fecha,
                                         ip,
@@ -56,10 +54,17 @@ if( $con ) {
                                         currentPage,
                                         fingerprint,
                                         navName,
-                                        navVersion
+                                        navVersion,
+                                        deviceType,
+                                        osName,
+                                        country,
+                                        city,
+                                        latitud,
+                                        longitud
                                         )
                 VALUES(
-                        '". $id ."',
+                        '". $_GET["userId"] ."',
+                        '". $sessionId ."',
                         '". $_GET["reqTime"] ."',
                         '". $_GET["ipVisita"] ."',
                         '". $_GET["httpUserAgente"] ."',
@@ -67,15 +72,22 @@ if( $con ) {
                         '". $_GET["currentPage"] ."',
                         '". $_GET["fingerprintId"] ."',
                         '". $_GET["navName"] ."',
-                        '". $_GET["navVersion"] ."'
+                        '". $_GET["navVersion"] ."',
+                        '". $_GET["deviceType"] ."',
+                        '". $_GET["osName"] ."',
+                        '". $_GET["country"] ."',
+                        '". $_GET["city"] ."',
+                        '". $_GET["latitud"] ."',
+                        '". $_GET["longitud"] ."'
                         )";
     $query = mysqli_query($con, $insertar);
     if( $query ) {
         //$retorno["estado"] = "OK";
-        // crea log para validacion
+        // get data for log 
         $info=$dbInsert.'","'
         .$id.'","'
-        .$textoUser.$id.'","'
+        .$textoUser.$_GET["userId"].'","'
+        .$textoSession.$id.'","'
         .$textoRefer.$_GET['refer'].'","'
         .$textoIpVisita.$_GET['ipVisita'].'","'
         .$textoHttpUserAgent.$_GET['httpUserAgente'].'","'
@@ -83,7 +95,7 @@ if( $con ) {
         .$textoFingerprint.$_GET["fingerprintId"].'","'
         //.$textoUserDeviceId.$_GET["userDeviceId"].'","'
         .$textoReqTime.$_GET['reqTime']."\n";
-
+        // crea log para validacion
         $file= 'tracker_log.csv';
         $fp = fopen($file, "a");
         fputs($fp, $info);

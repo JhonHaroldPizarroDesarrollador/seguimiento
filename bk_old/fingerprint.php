@@ -2,11 +2,9 @@
 <script src="node_modules/detectrtc/DetectRTC.js"></script>
 <script>
 var MD5 = function (string) {
-
    function RotateLeft(lValue, iShiftBits) {
            return (lValue<<iShiftBits) | (lValue>>>(32-iShiftBits));
    }
-
    function AddUnsigned(lX,lY) {
            var lX4,lY4,lX8,lY8,lResult;
            lX8 = (lX & 0x80000000);
@@ -20,29 +18,27 @@ var MD5 = function (string) {
            if (lX4 | lY4) {
                    if (lResult & 0x40000000) {
                            return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
-                   } else {
+                   } 
+                   else {
                            return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
                    }
-           } else {
+           } 
+           else {
                    return (lResult ^ lX8 ^ lY8);
            }
    }
-
    function F(x,y,z) { return (x & y) | ((~x) & z); }
    function G(x,y,z) { return (x & z) | (y & (~z)); }
    function H(x,y,z) { return (x ^ y ^ z); }
    function I(x,y,z) { return (y ^ (x | (~z))); }
-
    function FF(a,b,c,d,x,s,ac) {
            a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
            return AddUnsigned(RotateLeft(a, s), b);
    };
-
    function GG(a,b,c,d,x,s,ac) {
            a = AddUnsigned(a, AddUnsigned(AddUnsigned(G(b, c, d), x), ac));
            return AddUnsigned(RotateLeft(a, s), b);
    };
-
    function HH(a,b,c,d,x,s,ac) {
            a = AddUnsigned(a, AddUnsigned(AddUnsigned(H(b, c, d), x), ac));
            return AddUnsigned(RotateLeft(a, s), b);
@@ -207,6 +203,7 @@ if (window.requestIdleCallback) {
         Fingerprint2.get(function (components) {
             var values = components.map(function (component) { return component.value })
             var murmur=Fingerprint2.x64hash128(values.join(''), 31)
+            console.log('components fringerprint:');
             console.log(components);
             $fingerprintId = murmur;
             //console.log($fingerprintId);
@@ -221,7 +218,78 @@ if (window.requestIdleCallback) {
                 localStorage.setItem("fp", $fingerprintId);
             }
             createFingerprintCookie();
-
+            // GET THE Screen Resolution
+            $screenResolution = 'sRw'+window.screen.availHeight+'sRh'+window.screen.availWidth;
+            //alert($screenResolution);
+            // GET THE Number of CPU Virtual Cores
+            $cpuCores = 'cC'+navigator.hardwareConcurrency;
+            // GET THE AudioContext 
+            $audioContext = 'aC'+DetectRTC.isAudioContextSupported;
+            /*if (DetectRTC.isAudioContextSupported === true) {
+                alert($audioContext);
+            }*/
+            // GET THE check if mobile
+            if (DetectRTC.isMobileDevice === true) {
+                //alert('Please use Chrome or Firefox.');
+                $deviceType = 'dTmobile'
+            }
+            else{
+                $deviceType = 'dTdesktop'
+            }
+            function createDeviceTypeCookie() {
+                setCookie("dt", $deviceType, 1);
+                localStorage.setItem("dt", $deviceType);
+            }
+            createDeviceTypeCookie();
+            // GET THE webcam status
+            $webcam = 'wC'+DetectRTC.hasWebcam;
+            /* if (DetectRTC.hasWebcam === true) {
+                //alert($webcam);
+            } */
+            // GET THE Microphone status
+            $mic = 'mP'+DetectRTC.hasMicrophone;
+            /*if (DetectRTC.hasMicrophone === true) {
+                //alert($mic);
+            }*/
+            $spekers = 'sP'+DetectRTC.hasSpeakers;
+            $osName = 'oN'+DetectRTC.osName;
+            function osCookie() {
+                setCookie("os", DetectRTC.osName, 1);
+                localStorage.setItem("os", DetectRTC.osName);
+            }
+            osCookie();
+            $osVersion = 'oV'+DetectRTC.osVersion;
+            $canvas = 'cF'+MD5(components[17].value[1]);
+            $userDeviceId = $screenResolution+$cpuCores+$audioContext+$deviceType+$webcam+$mic+$spekers+$osName+$osVersion+$canvas;
+            //alert($userDeviceId);
+            function userDeviceIdCookie() {
+                setCookie("udi", $userDeviceId, 1);
+                localStorage.setItem("udi", $userDeviceId);
+            }
+            userDeviceIdCookie();
+        })
+    })
+}
+else {
+    setTimeout(function () {
+        Fingerprint2.get(function (components) {
+            var values = components.map(function (component) { return component.value })
+            var murmur=Fingerprint2.x64hash128(values.join(''), 31)
+            console.log('components fringerprint:');
+            console.log(components);
+            $fingerprintId = murmur;
+            //console.log($fingerprintId);
+            function setCookie(cname,cvalue,exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                var expires = "expires=" + d.toGMTString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+            function createFingerprintCookie() {
+                setCookie("fp", $fingerprintId, 1);
+                localStorage.setItem("fp", $fingerprintId);
+            }
+            createFingerprintCookie();
             // GET THE Screen Resolution
             $screenResolution = 'sRw'+window.screen.availHeight+'sRh'+window.screen.availWidth;
             //alert($screenResolution);
@@ -262,67 +330,8 @@ if (window.requestIdleCallback) {
             }
             userDeviceIdCookie();
         })
-    })
-}
-else {
-    setTimeout(function () {
-        Fingerprint2.get(function (components) {
-            var values = components.map(function (component) { return component.value })
-            var murmur=Fingerprint2.x64hash128(values.join(''), 31)
-            //console.log(murmur);
-            $fingerprintId = murmur;
-            //console.log($fingerprintId);
-            function setCookie(cname,cvalue,exdays) {
-                var d = new Date();
-                d.setTime(d.getTime() + (exdays*24*60*60*1000));
-                var expires = "expires=" + d.toGMTString();
-                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            }
-            function createFingerprintCookie() {
-                setCookie("fp", $fingerprintId, 1);
-                localStorage.setItem("fp", $fingerprintId);
-            }
-            createFingerprintCookie();
-
-            // GET THE Screen Resolution
-            $screenResolution = 'sRw'+window.screen.availHeight+'sRh'+window.screen.availWidth;
-            //alert($screenResolution);
-            // GET THE Number of CPU Virtual Cores
-            $cpuCores = 'cC'+navigator.hardwareConcurrency;
-            // GET THE AudioContext 
-            $audioContext = 'aC'+DetectRTC.isAudioContextSupported;
-            /*if (DetectRTC.isAudioContextSupported === true) {
-                alert($audioContext);
-            }*/
-            // GET THE check if mobile
-            if (DetectRTC.isMobileDevice === true) {
-                //alert('Please use Chrome or Firefox.');
-                $deviceType = 'dTmobile'
-            }
-            else{
-                $deviceType = 'dTdesktop'
-            }
-            // GET THE webcam status
-            $webcam = 'wC'+DetectRTC.hasWebcam;
-            /* if (DetectRTC.hasWebcam === true) {
-                //alert($webcam);
-            } */
-            // GET THE Microphone status
-            $mic = 'mP'+DetectRTC.hasMicrophone;
-            /*if (DetectRTC.hasMicrophone === true) {
-                //alert($mic);
-            }*/
-            $spekers = 'sP'+DetectRTC.hasSpeakers;
-            $osName = 'oN'+DetectRTC.osName;
-            $osVersion = 'oV'+DetectRTC.osVersion;
-            $userDeviceId = $screenResolution+$cpuCores+$audioContext+$deviceType+$webcam+$mic+$spekers+$osName+$osVersion;
-            //alert($userDeviceId);
-            function userDeviceIdCookie() {
-                setCookie("udi", $userDeviceId, 1);
-                localStorage.setItem("udi", $userDeviceId);
-            }
-            userDeviceIdCookie();
-        })
     }, 500)
 } 
+
+
 </script>
