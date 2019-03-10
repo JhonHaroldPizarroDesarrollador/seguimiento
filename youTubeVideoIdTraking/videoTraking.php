@@ -14,7 +14,7 @@ $textoSession = 'El ID de la session actual es: ';
 $textoUser = 'El ID del usuario  actual es: ';
 $textoSession = 'El ID de la sesssion  actual es: ';
 $textoRefer = 'La direcci?n de la cual llego el usuario es: ';
-$textoIpVisita = 'La direcci?n IP desde la cual está viendo la página actual el usuario es: ';
+$textoIpVisita = 'La direcci?n IP desde la cual estรก viendo la pรกgina actual el usuario es: ';
 $textoHttpUserAgent = 'El navegador que esta usando el usuario es: ';
 $textoCurrentPagina = 'La pagina actual o de aterrizaje es: ';
 $textoReqTime = 'Inicio de Solicitud: ';
@@ -60,7 +60,8 @@ if( $con ) {
                                         country,
                                         city,
                                         latitud,
-                                        longitud
+                                        longitud,
+                                        linkUrl
                                         )
                 VALUES(
                         '". $_GET["userId"] ."',
@@ -78,7 +79,8 @@ if( $con ) {
                         '". $_GET["country"] ."',
                         '". $_GET["city"] ."',
                         '". $_GET["latitud"] ."',
-                        '". $_GET["longitud"] ."'
+                        '". $_GET["longitud"] ."',
+                        '". $_GET["linkUrl"] ."'
                         )";
     $query = mysqli_query($con, $insertar);
     if( $query ) {

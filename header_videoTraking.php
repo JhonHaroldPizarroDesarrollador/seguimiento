@@ -6,13 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="google-site-verification" content="3w_fke8S2zQ6dtq9vJljVvrq1-0nvnp1DI-b3G1-L5c" />
-    <title>Document</title>
+    <title>Blog</title>
+    <?php require 'youTubeVideoIdTraking/youTubeVideoIdTraking.php';?>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PLQSFXJ"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
-<!-- End Google Tag Manager (noscript) -->
 <?php require 'browser/isPrivateMode.php';?>
 <?php
     //Dirección de la pagina (si la hay) que emplea el agente de usuario para la pagina actual
@@ -42,7 +39,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     $navVersion = $ua['version'];
 ?>
 <script>
-    var ip = "<?php echo $ip ?>";
+    var ip = "<?php echo $ipVisita; ?>";
     fetch("https://cors-anywhere.herokuapp.com/http://www.geoplugin.net/json.gp?ip="+ip).then(response => {
         return response.json();
     }).then(data => {
@@ -86,57 +83,4 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <?php require 'fingerprint/fingerprint.php';?>
 <?php
     $ip = $_SERVER['REMOTE_ADDR']; // This will contain the ip of the request
-?>
-<?php 
-    // $indicesServer = array('PHP_SELF', 
-    // 'argv', 
-    // 'argc', 
-    // 'GATEWAY_INTERFACE', 
-    // 'SERVER_ADDR', 
-    // 'SERVER_NAME', 
-    // 'SERVER_SOFTWARE', 
-    // 'SERVER_PROTOCOL', 
-    // 'REQUEST_METHOD', 
-    // 'REQUEST_TIME', 
-    // 'REQUEST_TIME_FLOAT', 
-    // 'QUERY_STRING', 
-    // 'DOCUMENT_ROOT', 
-    // 'HTTP_ACCEPT', 
-    // 'HTTP_ACCEPT_CHARSET', 
-    // 'HTTP_ACCEPT_ENCODING', 
-    // 'HTTP_ACCEPT_LANGUAGE', 
-    // 'HTTP_CONNECTION', 
-    // 'HTTP_HOST', 
-    // 'HTTP_REFERER', 
-    // 'HTTP_USER_AGENT', 
-    // 'HTTPS', 
-    // 'REMOTE_ADDR', 
-    // 'REMOTE_HOST', 
-    // 'REMOTE_PORT', 
-    // 'REMOTE_USER', 
-    // 'REDIRECT_REMOTE_USER', 
-    // 'SCRIPT_FILENAME', 
-    // 'SERVER_ADMIN', 
-    // 'SERVER_PORT', 
-    // 'SERVER_SIGNATURE', 
-    // 'PATH_TRANSLATED', 
-    // 'SCRIPT_NAME', 
-    // 'REQUEST_URI', 
-    // 'PHP_AUTH_DIGEST', 
-    // 'PHP_AUTH_USER', 
-    // 'PHP_AUTH_PW', 
-    // 'AUTH_TYPE', 
-    // 'PATH_INFO', 
-    // 'ORIG_PATH_INFO') ; 
-
-    // echo '<table cellpadding="10">' ; 
-    // foreach ($indicesServer as $arg) { 
-    //     if (isset($_SERVER[$arg])) { 
-    //         echo '<tr><td>'.$arg.'</td><td>' . $_SERVER[$arg] . '</td></tr>' ; 
-    //     } 
-    //     else { 
-    //         echo '<tr><td>'.$arg.'</td><td>-</td></tr>' ; 
-    //     } 
-    // } 
-    // echo '</table>' ; 
 ?>
