@@ -33,7 +33,7 @@
                 document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
             }
             function createIDCookie() {
-                setCookieID("userId", userEmail, 1);
+                setCookieID("userId", userEmail, 369);
                 localStorage.setItem("userId", userEmail);
             }
             createIDCookie();

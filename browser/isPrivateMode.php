@@ -56,7 +56,6 @@
         });
     }
     var $incognito='';
-    var $modo='';
     isPrivateMode().then((inPrivate) => {
         console.log('is in private mode: ', inPrivate);
         if (inPrivate == true){
